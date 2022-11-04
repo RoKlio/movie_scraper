@@ -6,4 +6,7 @@ class Movie(BaseModel):
     rating: int
     release_date: str
     description: str
-    earnings: int
+    genre: str
+
+class MovieLink(BaseModel):
+    url: str
