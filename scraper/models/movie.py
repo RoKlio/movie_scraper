@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class Movie(BaseModel):
     title: str
-    rating: int
+    rating: str
     release_date: str
     description: str
     genre: str

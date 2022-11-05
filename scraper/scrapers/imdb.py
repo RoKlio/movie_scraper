@@ -3,13 +3,9 @@ from scraper.models.movie import Movie, MovieLink
 
 from typing import List, Dict, Optional
 
-from bs4 import BeautifulSoup
-import requests
-import pandas as pd
-
 
 class Imdb(BaseScraper):
-    __items_per_page_: int = 50
+    __items_per_page__: int = 50
     __domain__: str = "https://www.imdb.com"
 
     def _retrieve_items_list(self, pages_count: int, genre: str) -> List[MovieLink]:
@@ -33,18 +29,23 @@ class Imdb(BaseScraper):
     def _retrieve_movie_info(self, link: MovieLink) -> Optional[Movie]:
         content = self._get_page_content(link.url)
         if content:
-            try:
                 title_years = content.find('h3', class_='lister-item-header')
-                title = title_years.find('a').text
-                title = title.replace('\n', '').strip()
+                movie_title = title_years.find('a').text
+                movie_title = movie_title.replace('\n', '').strip()
                 release_date = title_years.find('span', class_='lister-item-year text-muted unbold').text
                 genre = content.find('span', class_='genre').text
                 genre = genre.replace('\n', '').strip()
-                description = movie.find_all('p', class_='text-muted')[1].text.strip()
+                description = content.find_all('p', class_='text-muted')[1].text.strip()
                 rating = content.find('div', class_='inline-block ratings-imdb-rating').text.strip()
                 link = content.find('a')['href']
+                return Movie(
+                    title=movie_title,
+                    rating=rating,
+                    release_date=release_date,
+                    description=description,
+                    genre=genre
+                    )
         else:
             return None
 
-            scraped_movie_divs = soup.find('div', class_='lister-list')
 
