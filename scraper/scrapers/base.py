@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 import math
+
 import requests
 from bs4 import BeautifulSoup
 
 from scraper.models.movie import MovieLink, Movie
 
 class BaseScraper(ABC):
-    __items_per_page__: int = 50
+    __items_per_page__: int = 0
     __domain__: str = ""
 
     @abstractmethod
