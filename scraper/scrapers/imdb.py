@@ -10,9 +10,9 @@ class Imdb(BaseScraper):
 
     def _retrieve_items_list(self, pages_count: int, genre: str) -> List[MovieLink]:
         movies: List[MovieLink] = []
-        
+
         for page_num in range(pages_count):
-            content = self._get_page_content(f"/search/title/?groups=top_250&sort=user_rating/desc&start={page_num*50+1}&ref_=adv_prv")
+            content = self._get_page_content(f"/search/title/?title_type=feature&genres={genre}&start={page_num*50+1}&ref_=adv_nxt")
             if content:
                 scraped_movie_divs = content.find('div', class_='lister-list')
                 if not scraped_movie_divs:
