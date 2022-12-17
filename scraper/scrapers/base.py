@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from scraper.models.movie import MovieLink, Movie
 
 class BaseScraper(ABC):
-    __items_per_page__: int = 0
+    __items_per_page__: int = 50
     __domain__: str = ""
 
     @abstractmethod
@@ -19,7 +19,10 @@ class BaseScraper(ABC):
         resp = requests.get(f"{self.__domain__}/{query}")
         if resp.status_code == 200:
             return BeautifulSoup(resp.content)
-        raise Exception("Cannot reach content!")
+        else:
+            print(f"{self.__domain__}/{query}")
+            print(resp.status_code)
+            raise Exception("Cannot reach content!")
 
     @abstractmethod
     def _retrieve_movie_info(self, link: MovieLink) -> Optional[Movie]:
