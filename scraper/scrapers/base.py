@@ -16,7 +16,21 @@ class BaseScraper(ABC):
         pass
     
     def _get_page_content(self, query: str) -> Optional[BeautifulSoup]:
-        resp = requests.get(f"{self.__domain__}/{query}")
+        
+        headers = { 'accept':'*/*',
+        'accept-encoding':'gzip, deflate, br',
+        'accept-language':'en-GB,en;q=0.9,en-US;q=0.8,hi;q=0.7,la;q=0.6',
+        'cache-control':'no-cache',
+        'dnt':'1',
+        'pragma':'no-cache',
+        'referer':'https',
+        'sec-fetch-mode':'no-cors',
+        'sec-fetch-site':'cross-site',
+        'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36',
+        }
+
+        resp = requests.get(url = f"{self.__domain__}/{query}", headers=headers)
+        #print(f"{self.__domain__}/{query}")
         if resp.status_code == 200:
             return BeautifulSoup(resp.content)
         else:

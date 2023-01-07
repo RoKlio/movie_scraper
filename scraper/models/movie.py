@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class Movie(BaseModel):
@@ -6,7 +7,7 @@ class Movie(BaseModel):
     rating: str
     release_date: str
     description: str
-    genre: str
+    genre: List
 
 class MovieLink(BaseModel):
     url: str
