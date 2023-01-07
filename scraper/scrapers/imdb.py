@@ -11,8 +11,10 @@ class Imdb(BaseScraper):
     def _retrieve_items_list(self, pages_count: int, genre: str) -> List[MovieLink]:
         movies: List[MovieLink] = []
 
-        for page_num in range(pages_count):
+        for page_num in range(0, pages_count):
             content = self._get_page_content(f"/search/title/?title_type=feature&genres={genre}&start={page_num*50+1}&ref_=adv_nxt")
+            #print(pages_count)
+            #print(f"/search/title/?title_type=feature&genres={genre}&start={page_num*50+1}&ref_=adv_nxt")
             if content:
                 scraped_movie_divs = content.find('div', class_='lister-list')
                 if not scraped_movie_divs:
@@ -29,17 +31,19 @@ class Imdb(BaseScraper):
     def _retrieve_movie_info(self, link: MovieLink) -> Optional[Movie]:
         content = self._get_page_content(link.url)
         if content:
-                title_years = content.find('h3', class_='lister-item-header')
-                movie_title = title_years.find('a').text
-                movie_title = movie_title.replace('\n', '').strip()
-                release_date = title_years.find('span', class_='lister-item-year text-muted unbold').text
-                genre = content.find('span', class_='genre').text
-                genre = genre.replace('\n', '').strip()
-                description = content.find_all('p', class_='text-muted')[1].text.strip()
-                rating = content.find('div', class_='inline-block ratings-imdb-rating').text.strip()
+                #title_years = content.find('h3', class_='lister-item-header')
+                #movie_title = title_years.find('a').text
+                #movie_title = movie_title.replace('\n', '').strip()
+                #release_date = title_years.find('span', class_='lister-item-year text-muted unbold').text
+                title = content.find_all('div')[76].find('h1').text
+                genre = content.find_all('div')[137].text
+                #genre = genre.replace('\n', '').strip()
+                description = content.find_all('div')[134].find_all('span')[4].text
+                rating = content.find_all('div')[602].text
+                release_date = content.find_all('div')[678].text
                 link = content.find('a')['href']
                 return Movie(
-                    title=movie_title,
+                    title=title,
                     rating=rating,
                     release_date=release_date,
                     description=description,
