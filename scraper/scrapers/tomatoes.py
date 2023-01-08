@@ -11,18 +11,25 @@ class Tomatoes(BaseScraper):
     def _retrieve_items_list(self, pages_count: int, genre: str) -> List[MovieLink]:
         movies: List[MovieLink] = []
 
-        for page_num in range(0, pages_count):
+        for page_num in range(1, pages_count):
             content = self._get_page_content(f"/browse/movies_at_home/genres:{genre}?page={page_num}")
-            #print(pages_count)
-            #print(f"/search/title/?title_type=feature&genres={genre}&start={page_num*50+1}&ref_=adv_nxt")
+            #print(content)
+            #print(f"/browse/movies_at_home/genres:{genre}?page={page_num}") ###
             if content:
-                scraped_movie_divs = content.find('div', class_='discovery-tiles')
-                if not scraped_movie_divs:
-                    break   
-                scraped_movie_titles = scraped_movie_divs.find_all('div', class_='js-title-link')                
-                for movie in scraped_movie_titles:
-                    link = movie.find('a')['href']
-                    movies.append(MovieLink(url=link))
+                #scraped_movie_divs = content.find_all('a', class_='js-tile-link')
+                #print(scraped_movie_divs)
+                #if not scraped_movie_divs:
+                    #break  
+                #print(content) 
+                scraped_movie_titles = content.find_all('a', class_='js-tile-link')
+                #print(scraped_movie_titles)                
+                for i in range(len(scraped_movie_titles)):
+                    if i + 1 < len(scraped_movie_titles):
+                        title = scraped_movie_titles[i+1]
+                        link = title['href']
+                        #print(link) ###
+                        movies.append(MovieLink(url=link))
+                #print(movies) ###
             else:
                 continue
         return movies
