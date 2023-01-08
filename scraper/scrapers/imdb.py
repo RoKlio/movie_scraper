@@ -52,4 +52,3 @@ class Imdb(BaseScraper):
         else:
             return None
 
-

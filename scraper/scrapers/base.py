@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from scraper.models.movie import MovieLink, Movie
 
 class BaseScraper(ABC):
-    __items_per_page__: int = 50
+    __items_per_page__: int = 30
     __domain__: str = ""
 
     @abstractmethod
@@ -32,7 +32,7 @@ class BaseScraper(ABC):
         resp = requests.get(url = f"{self.__domain__}/{query}", headers=headers)
         #print(f"{self.__domain__}/{query}")
         if resp.status_code == 200:
-            return BeautifulSoup(resp.content)
+            return BeautifulSoup(resp.content, 'html.parser')
         else:
             print(f"{self.__domain__}/{query}")
             print(resp.status_code)
@@ -50,3 +50,4 @@ class BaseScraper(ABC):
         movies_links = self._retrieve_items_list(pages_count, genre)
         scraped_movies = [self._retrieve_movie_info(movie_link) for movie_link in movies_links]
         return [scraped_movie for scraped_movie in scraped_movies if scraped_movie is not None]
+
