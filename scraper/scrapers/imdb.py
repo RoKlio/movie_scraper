@@ -41,7 +41,7 @@ class Imdb(BaseScraper):
                 description = content.find_all('div')[134].find_all('span')[4].text
                 rating = content.find_all('div')[602].text
                 release_date = content.find_all('div')[678].text
-                link = content.find('a')['href']
+                #link = content.find('a')['href']
                 return Movie(
                     title=title,
                     rating=rating,
