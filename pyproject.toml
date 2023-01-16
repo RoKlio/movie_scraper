@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "movie-scraper"
+name = "scraper"
 version = "0.0.1"
 description = "A web scraper to scrape webpages for movies"
 authors = ["RoKlio <r.kliostoraitis@gmail.com>"]
