@@ -8,6 +8,9 @@ class Movie(BaseModel):
     release_date: str
     description: str
     genre: List
+    critics_score: str
+    top_actors: List
+    producer: str
 
 class MovieLink(BaseModel):
     url: str

@@ -32,6 +32,7 @@ class BaseScraper(ABC):
         resp = requests.get(url = f"{self.__domain__}/{query}", headers=headers)
         #print(f"{self.__domain__}/{query}")
         if resp.status_code == 200:
+            #print(f"{self.__domain__}/{query}")
             return BeautifulSoup(resp.content, 'html.parser')
         else:
             print(f"{self.__domain__}/{query}")

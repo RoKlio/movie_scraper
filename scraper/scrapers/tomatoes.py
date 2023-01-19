@@ -43,13 +43,25 @@ class Tomatoes(BaseScraper):
                 description = content.find('div', id='movieSynopsis').text.strip()
                 rating = content.find('score-board')['audiencescore']
                 release_date = content.find('time').text
-                #link = content.find('a')['href']
+                critics_score = content.find('score-board')['tomatometerscore']
+                actors = content.find('div', class_='castSection').find_all('a', class_='unstyled articleLink')
+                top_actors = []
+                for i in range(len(actors)):
+                    actors[i] = actors[i].text.strip()
+                    top_actors.append(actors[i])
+                    if len(top_actors) >= 6:
+                        break
+                producer = content.find_all('div', class_='meta-value')[3].text.strip() 
+
                 return Movie(
                     title=title,
                     rating=rating,
                     release_date=release_date,
                     description=description,
-                    genre=genre
+                    genre=genre,
+                    critics_score=critics_score,
+                    top_actors=top_actors,
+                    producer=producer
                     )
         else:
             return None
