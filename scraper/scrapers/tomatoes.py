@@ -42,7 +42,7 @@ class Tomatoes(BaseScraper):
                 genre = content.find('div', class_='meta-value genre').text.split()
                 description = content.find('div', id='movieSynopsis').text.strip()
                 rating = content.find('score-board')['audiencescore']
-                release_date = content.find('time').text
+                release_date = content.find('time').text.strip()
                 critics_score = content.find('score-board')['tomatometerscore']
                 actors = content.find('div', class_='castSection').find_all('a', class_='unstyled articleLink')
                 top_actors = []
